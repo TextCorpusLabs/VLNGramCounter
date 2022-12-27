@@ -1,0 +1,56 @@
+[project]
+name = "VeryLargeNGram"
+description = "NGram counter for large corpuses"
+readme = "README.md"
+license = {file = "LICENSE"}
+dynamic = ["version"]
+authors = [
+  {name = "Mark Newman", email = "github@trinetteandmark.com" }
+]
+maintainers = [
+  {name = "Mark Newman", email = "github@trinetteandmark.com" }
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Text Processing :: Linguistic"
+]
+
+requires-python = ">=3.11"
+dependencies = [
+  "progressbar2>=3.51.4,<4.0.0"
+]
+[project.optional-dependencies]
+test = ["coverage"]
+
+[project.urls]
+"Homepage" = "https://github.com/TextCorpusLabs/VeryLargeNGram"
+"Bug Reports" = "https://github.com/TextCorpusLabs/VeryLargeNGram/issues"
+"Source" = "https://github.com/TextCorpusLabs/VeryLargeNGram"
+
+
+[project.scripts]
+VeryLargeNGram = "VeryLargeNGram.__main__:main"
+
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["VeryLargeNGram"]
+
+[tool.setuptools.dynamic]
+version = {attr = "VeryLargeNGram.__init__.__version__"}
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests"
+]

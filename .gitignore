@@ -1,0 +1,11 @@
+# IDE/tools
+__pycache__
+.vscode
+.pytest_cache
+*.bak
+
+# Build
+/build
+/dist
+/typings
+*.egg-info
