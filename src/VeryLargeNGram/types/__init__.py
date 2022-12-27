@@ -1,1 +1,1 @@
-from .trie import trie
+from .trie import trie as trie
