@@ -1,4 +1,4 @@
-from VeryLargeNGram.types import trie
+from VLNGramCounter.types import trie
 
 def test_length():
     obj = trie(1)

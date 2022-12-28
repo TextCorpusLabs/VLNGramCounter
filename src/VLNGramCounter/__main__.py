@@ -1,7 +1,7 @@
 import sys
 from argparse import ArgumentParser, Namespace
-from VeryLargeNGram.types import settings
-from VeryLargeNGram.utils import validate as v
+from VLNGramCounter.types import settings
+from VLNGramCounter.utils import validate as v
 #from . import count_ngrams
 
 def main() -> None:
