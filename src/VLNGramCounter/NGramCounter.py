@@ -1,6 +1,6 @@
 import shutil
+from . import utils
 from .dtypes import settings, trie
-from .utils import load_trie
 
 class NGramCounter:
 
@@ -25,10 +25,12 @@ class NGramCounter:
             shutil.rmtree(self._settings.cache_dir)
         self._settings.cache_dir.mkdir(parents = True, exist_ok = True)
         if self._settings.include is not None:
-            self._include = load_trie(self._settings.include, self._settings.size)
+            self._include = utils.load_trie(self._settings.include, self._settings.size)
         if self._settings.exclude is not None:
-            self._exclude = load_trie(self._settings.exclude, 1)
+            self._exclude = utils.load_trie(self._settings.exclude, 1)
 
     def count(self) -> None:
+        source_files = (path for path in utils.list_folder_documents(self._settings.source))
+        xxx = [x for x in source_files]
         pass
 
