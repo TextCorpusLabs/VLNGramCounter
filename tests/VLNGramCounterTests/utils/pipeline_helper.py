@@ -1,4 +1,4 @@
-from VLNGramCounter.utils import tokenize_lines, transform_case
+from VLNGramCounter.utils import tokenize_lines, transform_case, clean_punct
 
 def test_tokenize_lines():
     t0 = ['a', 'a b', 'a  b']
@@ -17,3 +17,16 @@ def test_transform_case():
     assert res[0] == ['A']
     assert res[1] == ['A', 'BB']
     assert res[2] == ['AAA']
+
+def test_clean_punct():
+    t0 = [['a'], ['a?'], ['?a'], ['?a?'], ['a?a'], ['a?a?'], ['?a', 'b?']]
+    t1 = (x for x in t0)
+    res = list(clean_punct(t1))
+    assert len(res) == 7
+    assert res[0] == ['a']
+    assert res[1] == ['a']
+    assert res[2] == ['a']
+    assert res[3] == ['a']
+    assert res[4] == ['a?a']
+    assert res[5] == ['a?a']
+    assert res[6] == ['a', 'b']

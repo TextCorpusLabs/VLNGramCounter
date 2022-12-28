@@ -35,7 +35,9 @@ class NGramCounter:
         lines = utils.read_lines_in_files(source_files)
         token_lines = utils.tokenize_lines(lines)
         if not self._settings.keep_case:
-            token_lines = utils.transform_case(token_lines)        
+            token_lines = utils.transform_case(token_lines)
+        if not self._settings.keep_punct:
+            token_lines = utils.clean_punct(token_lines)
         xxx = [x for x in token_lines] # type: ignore
         pass
 
