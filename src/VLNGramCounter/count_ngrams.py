@@ -7,7 +7,7 @@ import typing as t
 from sys import maxsize as MAX_SIZE
 from uuid import uuid4
 from . import common_types as ct
-from .types.utils import utils as u
+from .dtypes.utils import utils as u
 
 class _merge_arg:
     def __init__(self, chunk_1: pathlib.Path, chunk_2: pathlib.Path, cache_dir: pathlib.Path):

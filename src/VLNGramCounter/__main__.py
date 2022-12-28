@@ -1,8 +1,8 @@
 import sys
 from argparse import ArgumentParser, Namespace
-from VLNGramCounter.types import settings
-from VLNGramCounter.utils import validate as v
-#from . import count_ngrams
+from .dtypes import settings
+from .utils import validate as v
+from .NGramCounter import NGramCounter
 
 def main() -> None:
     parser = ArgumentParser(prog = 'VeryLargeNGram', description = "NGram counter for large corpuses")
@@ -18,7 +18,10 @@ def main() -> None:
     parser.add_argument('-keep_punct', action = 'store_true', help = 'Keeps all punctuation of the before converting to tokens')
     args = parser.parse_args()
     _print_args(args)
-    #count_ngrams(args.source, args.dest, args.size, args.control, args.include, args.exclude, args.cutoff, args.top, args.keep_case, args.keep_punct)
+    set = settings(args.size, args.control, args.include, args.exclude, args.cutoff, args.top, args.keep_case, args.keep_punct)
+    counter = NGramCounter(set)
+    counter.init()
+    counter.count(args.source, args.dest)
 
 def _print_args(args: Namespace) -> None:
     print(f'---------')
