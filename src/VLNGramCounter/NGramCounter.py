@@ -1,6 +1,6 @@
 import shutil
 from . import utils
-from .dtypes import settings, trie
+from .dtypes import settings
 
 class NGramCounter:
 
@@ -14,8 +14,6 @@ class NGramCounter:
             The settings for the counter
         """
         self._settings = settings
-        self._include: trie = None # type: ignore
-        self._exclude: trie = None # type: ignore
 
     def init(self) -> None:
         self._settings.validate()
@@ -38,6 +36,8 @@ class NGramCounter:
             token_lines = utils.transform_case(token_lines)
         if not self._settings.keep_punct:
             token_lines = utils.clean_punct(token_lines)
+        if self._settings.exclude is not None:
+            token_lines = utils.remove_exclusions(token_lines, self._exclude)
         xxx = [x for x in token_lines] # type: ignore
         pass
 
