@@ -1,5 +1,6 @@
 import sys
 from argparse import ArgumentParser, Namespace
+from VeryLargeNGram.types import settings
 from VeryLargeNGram.utils import validate as v
 #from . import count_ngrams
 

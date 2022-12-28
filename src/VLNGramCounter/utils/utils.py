@@ -1,8 +1,7 @@
 import pathlib
-import jsonlines as jl
 import progressbar as pb
 import typing as t
-from . import common_types as ct
+from ... import common_types as ct
 
 T = t.TypeVar('T')
 
@@ -70,28 +69,6 @@ def list_merged_folder_documents(folders_in: t.List[pathlib.Path], is_document: 
                 docs = [str(result[i]) for i in range(len(result)) if exists[i]]
                 yield docs
 
-def csv_list(text: str) -> t.List[str]:
-    """
-    Converts a CSV string into its componet parts
-
-    Parameters
-    ----------
-    text : str
-        The CSV text
-    """
-    result = [item.strip() for item in text.split(',')]
-    return result
-
-def csv_tuple(text: str) -> t.List[t.Tuple[str, str]]:
-    """
-    Converts a ':' paired ',' seperated list into a list of tuples
-    Parameters
-    ----------
-    text : str
-        The text to convert
-    """
-    result = [tuple(target.split(':')) for target in text.split(',')]
-    return result
 
 def is_txt_document(file_path: pathlib.Path) -> bool:
     """
@@ -103,32 +80,7 @@ def is_txt_document(file_path: pathlib.Path) -> bool:
         not file_path.stem.startswith('_')
     return result
 
-def is_json_document(file_path: pathlib.Path) -> bool:
-    """
-    Determines if the file should be included in the processing
-    """
-    result = \
-        file_path.is_file() and \
-        file_path.suffix.lower() == '.json' and \
-        not file_path.stem.startswith('_')
-    return result
 
-def is_jsonl_document(file_path: pathlib.Path) -> bool:
-    """
-    Determines if the file should be included in the processing
-    """
-    result = \
-        file_path.is_file() and \
-        file_path.suffix.lower() == '.jsonl' and \
-        not file_path.stem.startswith('_')
-    return result
-
-def drain_iterator(completes: t.Iterator[int]) -> None:
-    """
-    Runs through the iterator, doing nothing
-    """
-    for _ in completes:
-        pass
 
 def progress_overlay(items: t.Iterator[T], title: str) -> t.Iterator[T]:
     bar_i = 0

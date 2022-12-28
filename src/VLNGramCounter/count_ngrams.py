@@ -7,7 +7,7 @@ import typing as t
 from sys import maxsize as MAX_SIZE
 from uuid import uuid4
 from . import common_types as ct
-from . import utils as u
+from .types.utils import utils as u
 
 class _merge_arg:
     def __init__(self, chunk_1: pathlib.Path, chunk_2: pathlib.Path, cache_dir: pathlib.Path):
@@ -53,25 +53,26 @@ def count_ngrams(source: pathlib.Path, dest: pathlib.Path, size: int, control: i
         dest.unlink()
     cache_dir = dest.parent.joinpath(f'tmp_{dest.name}')
     cache_dir.mkdir(parents = True, exist_ok = True)
-    if source.is_file():
-        source_files = [source]
     else:
         source_files = (pathlib.Path(path) for path in u.list_folder_documents(source, u.is_jsonl_document))
-    doc_collections = (u.list_jsonl_documents(file) for file in source_files)
-    docs = (x for y in doc_collections for x in y)
-    docs = u.progress_overlay(docs, 'Reading Document #')
-    ngram_collections = (_collect_ngrams_in_doc(doc, fields, size, keep_case, keep_punct) for doc in docs)
-    chunks = _chunk_ngram_collections(ngram_collections, chunk_size)
-    chunks = (_sort_ngram_chunk(x) for x in chunks)
-    chunks = (_write_ngram_chunk(x, cache_dir) for x in chunks)
-    chunks = list(chunks)
-    chunk = _merge_ngram_chunks(chunks, cache_dir, 1)
-    ngrams = _read_ngram_chunk(chunk)
-    ngrams = u.progress_overlay(ngrams, 'Reviewing N-Grams #')
-    ngrams = _keep_top_ngrams(ngrams, top)    
-    ngrams = sorted(ngrams, key = lambda ng: ng.count, reverse = True)
-    _write_ngrams(ngrams, dest, size)    
-    shutil.rmtree(cache_dir)
+    #doc_collections = (u.list_jsonl_documents(file) for file in source_files)
+    #docs = (x for y in doc_collections for x in y)
+    #docs = u.progress_overlay(docs, 'Reading Document #')
+    #ngram_collections = (_collect_ngrams_in_doc(doc, fields, size, keep_case, keep_punct) for doc in docs)
+    #chunks = _chunk_ngram_collections(ngram_collections, chunk_size)
+    #chunks = (_sort_ngram_chunk(x) for x in chunks)
+    #chunks = (_write_ngram_chunk(x, cache_dir) for x in chunks)
+    #chunks = list(chunks)
+    #chunk = _merge_ngram_chunks(chunks, cache_dir, 1)
+    #ngrams = _read_ngram_chunk(chunk)
+    #ngrams = u.progress_overlay(ngrams, 'Reviewing N-Grams #')
+    #ngrams = _keep_top_ngrams(ngrams, top)    
+    #ngrams = sorted(ngrams, key = lambda ng: ng.count, reverse = True)
+    #_write_ngrams(ngrams, dest, size)    
+    #shutil.rmtree(cache_dir)
+
+
+
 
 def _collect_ngrams_in_doc(document: ct.Document, fields: t.List[str], size: int, keep_case: bool, keep_punct: bool) -> t.Dict[str,int]:
     result: t.Dict[str,int] = {}
