@@ -53,3 +53,6 @@ minversion = "6.0"
 testpaths = [
     "tests"
 ]
+python_files = [
+    "*.py"
+]

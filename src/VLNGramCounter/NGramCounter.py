@@ -1,6 +1,4 @@
-import pathlib
 import shutil
-import typing as t
 from . import utils
 from .dtypes import settings, trie
 
@@ -34,20 +32,11 @@ class NGramCounter:
     def count(self) -> None:
         source_files = (path for path in utils.list_folder_documents(self._settings.source))
         source_files = utils.progress_overlay(source_files, 'Reading file #')
-        lines = NGramCounter._read_lines_in_files(source_files)
+        lines = utils.read_lines_in_files(source_files)
+        token_lines = utils.tokenize_lines(lines)
         if not self._settings.keep_case:
-            lines = NGramCounter._transform_case(lines)        
-        xxx = [x for x in lines] # type: ignore
+            token_lines = utils.transform_case(token_lines)        
+        xxx = [x for x in token_lines] # type: ignore
         pass
 
-    @staticmethod
-    def _read_lines_in_files(source_files: t.Iterator[pathlib.Path]) -> t.Iterator[t.List[str]]:
-        for file in source_files:
-            for line in utils.read_lines_in_file(file):
-                arr = line.strip().split(' ')
-                yield arr
 
-    @staticmethod
-    def _transform_case(lines: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str]]:
-        for line in lines:
-            yield [tok.upper() for tok in line]
