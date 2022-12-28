@@ -19,7 +19,6 @@ def main() -> None:
     args = parser.parse_args()
     _print_args(args)
     set = settings(args.source, args.dest, args.size, args.control, args.include, args.exclude, args.cutoff, args.top, args.keep_case, args.keep_punct)
-    set.validate()
     counter = NGramCounter(set)
     counter.init()
     counter.count()

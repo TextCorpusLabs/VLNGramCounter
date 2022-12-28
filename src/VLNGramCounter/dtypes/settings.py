@@ -47,6 +47,9 @@ class settings:
     def dest(self) -> pathlib.Path:
         return self._dest
     @property
+    def cache_dir(self) -> pathlib.Path:
+        return self._dest.parent.joinpath(f'tmp_{self._dest.name}')        
+    @property
     def size(self) -> int:
         return self._size
     @property
