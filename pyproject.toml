@@ -1,5 +1,5 @@
 [project]
-name = "VeryLargeNGram"
+name = "VLNGramCounter"
 description = "NGram counter for large corpuses"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -30,12 +30,12 @@ dependencies = [
 test = ["pytest"]
 
 [project.urls]
-"Homepage" = "https://github.com/TextCorpusLabs/VeryLargeNGram"
-"Bug Reports" = "https://github.com/TextCorpusLabs/VeryLargeNGram/issues"
-"Source" = "https://github.com/TextCorpusLabs/VeryLargeNGram"
+"Homepage" = "https://github.com/TextCorpusLabs/VLNGramCounter"
+"Bug Reports" = "https://github.com/TextCorpusLabs/VLNGramCounter/issues"
+"Source" = "https://github.com/TextCorpusLabs/VLNGramCounter"
 
 [project.scripts]
-VeryLargeNGram = "VeryLargeNGram.__main__:main"
+VLNGramCounter = "VLNGramCounter.__main__:main"
 
 [build-system]
 requires = ["setuptools>=65", "wheel"]
@@ -43,10 +43,10 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["VeryLargeNGram"]
+packages = ["VLNGramCounter"]
 
 [tool.setuptools.dynamic]
-version = {attr = "VeryLargeNGram.__init__.__version__"}
+version = {attr = "VLNGramCounter.__init__.__version__"}
 
 [tool.pytest.ini_options]
 minversion = "6.0"

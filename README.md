@@ -1,4 +1,4 @@
-# Very Large NGram
+# Very Large NGram Counter
 
 ![Python](https://img.shields.io/badge/python-3.x-blue.svg)
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
@@ -15,15 +15,15 @@ You can install the package using the following steps:
 `pip` install using an _admin_ prompt.
 
 ```{ps1}
-pip uninstall VeryLargeNGram
-python -OO -m pip install -v git+https://github.com/TextCorpusLabs/VeryLargeNGram.git
+pip uninstall VLNGramCounter
+python -OO -m pip install -v git+https://github.com/TextCorpusLabs/VLNGramCounter.git
 ```
 
 or if you have the code local
 
 ```{ps1}
-pip uninstall VeryLargeNGram
-python -OO -m pip install -v c:/repos/TextCorpusLabs/VeryLargeNGram
+pip uninstall VLNGramCounter
+python -OO -m pip install -v c:/repos/TextCorpusLabs/VLNGramCounter
 ```
 
 ## Run
@@ -31,7 +31,7 @@ python -OO -m pip install -v c:/repos/TextCorpusLabs/VeryLargeNGram
 Counts the n-grams contained in a folder of TXT files.
 
 ```{ps1}
-VeryLargeNGram -source d:/data/corpus -dest d:/data/corpus.ngrams.csv
+VLNGramCounter -source d:/data/corpus -dest d:/data/corpus.ngrams.csv
 ```
 
 The following are optional parameters:
@@ -69,6 +69,6 @@ The code in this repo is setup as a module.
 In order to debug (F5) or run the tests (Ctrl + ; Crtl + A), make sure to install the module as editable (see below).
 
 ```{ps1}
-pip uninstall VeryLargeNGram
-python -m pip install -e c:/repos/TextCorpusLabs/VeryLargeNGram
+pip uninstall VLNGramCounter
+python -m pip install -e c:/repos/TextCorpusLabs/VLNGramCounter
 ```
