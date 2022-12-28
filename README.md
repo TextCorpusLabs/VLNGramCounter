@@ -34,6 +34,11 @@ Counts the n-grams contained in a folder of TXT files.
 VLNGramCounter -source d:/data/corpus -dest d:/data/corpus.ngrams.csv
 ```
 
+The following are required parameters:
+
+* `source` is the folder containing the TXT files.
+* `dest` is the CSV file used to store the ngram results.
+
 The following are optional parameters:
 
 * `size` is the length of the n-gram.
@@ -60,7 +65,6 @@ The following are optional parameters:
 2. Exclusion (`keep_punct` > `exclude`)
 3. Inclusion (`include`)
 4. Filter (`cutoff` > `top`)
-
 
 ## Debug/Test
 
