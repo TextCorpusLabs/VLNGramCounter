@@ -75,3 +75,10 @@ def write_ngram_chunks(chunks: t.Iterator[trie], cache_dir: pathlib.Path) -> t.I
         return file_name
     for chunk in chunks:
         yield _write_ngram_chunk(chunk, cache_dir)
+
+def write_ngrams(ngrams: t.Iterator[t.Tuple[str, int]], csv_out: pathlib.Path, length: int) -> None:
+    with open(csv_out, 'w', encoding = 'utf-8', newline = '') as fp:
+        writer = csv.writer(fp, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
+        writer.writerow(['n', 'count', 'ngram'])
+        for ngram in ngrams:
+            writer.writerow([length, ngram[1], ngram[0]])

@@ -2,6 +2,22 @@ import string
 import typing as t
 from ..dtypes import trie
 
+def aggregate_ngrams(ngrams: t.Iterator[t.List[str]]) -> t.Iterator[t.Tuple[str, int]]:
+    prev_gram: str | None = None
+    prev_cnt: int = 0
+    for ngram in ngrams:
+        if prev_gram is None:
+            prev_gram = ngram[0]
+            prev_cnt = int(ngram[1])
+        elif prev_gram == ngram[0]:
+            prev_cnt += int(ngram[1])
+        else:
+            yield (prev_gram, prev_cnt)
+            prev_gram = ngram[0]
+            prev_cnt = int(ngram[1])
+    if prev_gram is not None:
+        yield (prev_gram, prev_cnt)
+
 def chunk_ngrams(ngrams: t.Iterator[t.Tuple[t.List[str], int]], length: int, max_ram: int) -> t.Iterator[trie]:
     chunk = trie(length)
     for ngram in ngrams:

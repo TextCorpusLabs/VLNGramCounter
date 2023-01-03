@@ -46,3 +46,7 @@ class NGramCounter:
         ngram_chunks = utils.chunk_ngrams(ngram_starts, self._settings.length, self._settings.max_ram)
         chunk_paths = list(utils.write_ngram_chunks(ngram_chunks, self._settings.cache_dir))
         chunk_path = utils.merge_sort_csv(chunk_paths, self._settings.cache_dir)
+        ngrams = utils.read_csv_file(chunk_path)
+        ngrams = utils.aggregate_ngrams(ngrams)
+        ngrams = utils.progress_overlay(ngrams, 'Reviewing N-Grams #')
+        utils.write_ngrams(ngrams, self._settings.dest, self._settings.length)
