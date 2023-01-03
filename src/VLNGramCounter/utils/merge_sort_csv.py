@@ -12,7 +12,7 @@ class _merge_arg:
         self.cache_dir = cache_dir
 
 def merge_sort_csv(file_paths: t.List[pathlib.Path], cache_dir: pathlib.Path) -> pathlib.Path:
-    widgets = ['Merges Left ', pb.Counter(), ' ', pb.Timer(), ' ', pb.BouncingBar(marker = '.', left = '[', right = ']')]
+    widgets = ['Merging Files ', pb.Counter(), ' ', pb.Timer(), ' ', pb.BouncingBar(marker = '.', left = '[', right = ']')]
     with pb.ProgressBar(widgets = widgets, initial_value = len(file_paths)) as bar:
         with mp.Pool() as pool:
             bar.update(len(file_paths), force = True) # type: ignore
@@ -69,8 +69,9 @@ def _min_index(lines: t.List[t.List[str]]) -> int:
             min_i = i
             break
     for i in range(min_i + 1, len_ngs):
-        curr = lines[i][0]
-        if curr is not None and curr < min_ng:
-            min_ng = curr
-            min_i = i
+        if lines[i] is not None:
+            curr = lines[i][0]
+            if curr < min_ng:
+                min_ng = curr
+                min_i = i
     return min_i
