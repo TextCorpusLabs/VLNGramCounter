@@ -24,6 +24,20 @@ def list_folder_documents(folder_in: pathlib.Path) -> t.Iterator[pathlib.Path]:
             if _is_txt_document(file_name):
                 yield file_name
 
+def read_csv_file(file_path: pathlib.Path) -> t.Iterator[t.List[str]]:
+    """
+    Reads all the rows in a CSV file as an `Iterator`
+
+    Parameters
+    ----------
+    file_path : pathlib.Path
+        The file to read
+    """
+    with open(file_path, 'r', encoding = 'utf-8') as fp:
+        reader = csv.reader(fp, delimiter = ',', quotechar = '"')
+        for item in reader:
+            yield item
+
 def read_lines_in_files(source_files: t.Iterator[pathlib.Path]) -> t.Iterator[str]:
     """
     Reads all the lines in all the files as an `Iterator`

@@ -4,6 +4,7 @@ import pathlib
 import progressbar as pb # type: ignore
 import typing as t
 from uuid import uuid4
+from .fs_helper import read_csv_file
 
 class _merge_arg:
     def __init__(self, file_1: pathlib.Path, file_2: pathlib.Path, cache_dir: pathlib.Path):
@@ -39,7 +40,7 @@ def _merge_files(args: _merge_arg) -> pathlib.Path:
     if args.file_2 is None:
         return args.file_1
     file_name = args.cache_dir.joinpath(f'tmp_{uuid4()}.csv')
-    readers = [_read_csv_file(args.file_1), _read_csv_file(args.file_2)]
+    readers = [read_csv_file(args.file_1), read_csv_file(args.file_2)]
     current = [next(readers[0]), next(readers[1])]
     cnt = len(current)
     with open(file_name, 'w', encoding = 'utf-8', newline = '') as fp:
@@ -50,14 +51,9 @@ def _merge_files(args: _merge_arg) -> pathlib.Path:
             current[i] = next(readers[i], None) # type: ignore
             if current[i] is None:
                 cnt = cnt - 1
+    args.file_1.unlink()
+    args.file_2.unlink()
     return file_name
-
-def _read_csv_file(file_path: pathlib.Path) -> t.Iterator[t.List[str]]:
-    with open(file_path, 'r', encoding = 'utf-8') as fp:
-        reader = csv.reader(fp, delimiter = ',', quotechar = '"')
-        for item in reader:
-            yield item
-    file_path.unlink()
 
 def _min_index(lines: t.List[t.List[str]]) -> int:
     len_ngs = len(lines)

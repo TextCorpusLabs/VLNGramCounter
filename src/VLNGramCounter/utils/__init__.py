@@ -1,7 +1,8 @@
 from .fs_helper import list_folder_documents as list_folder_documents
+from .fs_helper import read_csv_file as read_csv_file
 from .fs_helper import read_lines_in_files as read_lines_in_files
 from .fs_helper import write_ngram_chunks as write_ngram_chunks
-from .merge_sort_csv import merge_sort_csv as merge_sort_csv
+from .merge_sort_helper import merge_sort_csv as merge_sort_csv
 from .pipeline_helper import chunk_ngrams as chunk_ngrams
 from .pipeline_helper import clean_punct as clean_punct
 from .pipeline_helper import collect_ngram_starts as collect_ngram_starts
