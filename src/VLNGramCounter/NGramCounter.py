@@ -1,4 +1,3 @@
-import pathlib
 import shutil
 from . import utils
 from .dtypes import settings
@@ -49,6 +48,8 @@ class NGramCounter:
         ngrams = utils.read_csv_file(chunk_path)
         ngrams = utils.progress_overlay(ngrams, 'Reviewing N-Grams #')
         ngrams = utils.aggregate_ngrams(ngrams)
-        ngrams = utils.apply_cutoff(ngrams, self._settings.cutoff)        
+        ngrams = utils.apply_cutoff(ngrams, self._settings.cutoff)
+        ngrams = utils.keep_top_ngrams(ngrams, self._settings.top)
+        ngrams = (x for x in sorted(ngrams, key = lambda ng: ng[1], reverse = True))
         utils.write_ngrams(ngrams, self._settings.dest, self._settings.length)
         shutil.rmtree(self._settings.cache_dir)

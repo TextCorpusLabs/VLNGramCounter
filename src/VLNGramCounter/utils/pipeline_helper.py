@@ -1,6 +1,7 @@
 import string
 import typing as t
 from ..dtypes import trie
+from sys import maxsize as MAX_SIZE
 
 def apply_cutoff(ngrams: t.Iterator[t.Tuple[str, int]], cutoff: int) -> t.Iterator[t.Tuple[str, int]]:
     for ngram in ngrams:
@@ -44,6 +45,35 @@ def collect_ngram_starts(lines: t.Iterator[t.List[str]], size: int) -> t.Iterato
             for i in range(0, len(line) - size + 1):
                 res = (line, i)
                 yield res
+
+def keep_top_ngrams(ngrams: t.Iterator[t.Tuple[str, int]], top: int) -> t.Iterator[t.Tuple[str, int]]:
+    def _add(results: t.Dict[int, t.List[t.Tuple[str, int]]], ngram: t.Tuple[str, int]):
+        if ngram[1] not in results:
+            results[ngram[1]] = []
+        results[ngram[1]].append(ngram)
+    results: t.Dict[int, t.List[t.Tuple[str, int]]] = {}
+    cnt = 0
+    mn = MAX_SIZE
+    for ngram in ngrams:
+        if cnt < top:
+            _add(results, ngram)
+            cnt = cnt + 1
+            if ngram[1] < mn:
+                mn = ngram[1]
+        elif ngram[1] == mn:
+            _add(results, ngram)
+            cnt = cnt + 1
+        elif ngram[1] > mn:
+            _add(results, ngram)
+            cnt = cnt + 1
+            t1 = len(results[mn])
+            if cnt - t1 >= top:
+                del results[mn]
+                cnt = cnt - t1
+                mn = min(results.keys())
+    for best_ngrams in results.values():
+        for ngram in best_ngrams:
+            yield ngram
 
 def limit_inclusions(ngrams: t.Iterator[t.Tuple[t.List[str], int]], includes: trie) -> t.Iterator[t.Tuple[t.List[str], int]]:
     for ngram in ngrams:

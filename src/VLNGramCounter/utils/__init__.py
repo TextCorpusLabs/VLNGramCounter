@@ -9,6 +9,7 @@ from .pipeline_helper import apply_cutoff as apply_cutoff
 from .pipeline_helper import chunk_ngrams as chunk_ngrams
 from .pipeline_helper import clean_punct as clean_punct
 from .pipeline_helper import collect_ngram_starts as collect_ngram_starts
+from .pipeline_helper import keep_top_ngrams as keep_top_ngrams
 from .pipeline_helper import limit_inclusions as limit_inclusions
 from .pipeline_helper import remove_empty_tokens as remove_empty_tokens
 from .pipeline_helper import remove_exclusions as remove_exclusions
