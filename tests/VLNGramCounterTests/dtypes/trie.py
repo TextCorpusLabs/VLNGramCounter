@@ -14,6 +14,12 @@ def test_increment_basic_len1():
     obj.increment(arr, 0)
     assert obj.size == 1
 
+def test_increment_basic_len1_double():
+    obj = trie(1)
+    arr = ['aa', 'bb', 'cc']
+    obj.increment(arr, 0)
+    assert obj.size == 2
+
 def test_increment_more_same_len1():
     obj = trie(1)
     arr = ['a', 'b', 'c']
@@ -32,28 +38,35 @@ def test_increment_basic_len2():
     obj = trie(2)
     arr = ['a', 'b', 'c']
     obj.increment(arr, 0)
-    assert obj.size == 1
+    assert obj.size == 2
 
 def test_increment_shared_len2():
     obj = trie(2)
     arr = ['a', 'a', 'b']
     obj.increment(arr, 0)
     obj.increment(arr, 1)
-    assert obj.size == 2
+    assert obj.size == 3
 
 def test_increment_more_same_len2():
     obj = trie(2)
     arr = ['a', 'b', 'c']
     obj.increment(arr, 0)
     obj.increment(arr, 0)
-    assert obj.size == 1
+    assert obj.size == 2
 
 def test_increment_more_different_len2():
     obj = trie(2)
     arr = ['a', 'b', 'c']
     obj.increment(arr, 0)
     obj.increment(arr, 1)
-    assert obj.size == 2
+    assert obj.size == 4
+
+def test_increment_more_different_len2_double():
+    obj = trie(2)
+    arr = ['aa', 'bb', 'cc']
+    obj.increment(arr, 0)
+    obj.increment(arr, 1)
+    assert obj.size == 8
 
 def test_enumerate_basic_len1():
     obj = trie(1)

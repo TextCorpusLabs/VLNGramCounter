@@ -29,16 +29,13 @@ class trie:
 
     def increment(self, array: t.List[str], start: int) -> None:
         root: trie._node = self._root
-        miss: bool = False
         for i in range(0, self._length):
             key: str = array[start + i]
             if key not in root.children:
                 root.children[key] = trie._node()
-                miss = True
+                self._size += len(key)
             root = root.children[key]
         root.value += 1
-        if miss:
-            self._size += 1
 
     def contains(self, array: t.List[str], start: int) -> bool:
         root: trie._node = self._root
