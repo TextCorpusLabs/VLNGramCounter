@@ -40,7 +40,10 @@ class NGramCounter:
             token_lines = utils.remove_exclusions(token_lines, self._exclude)
         token_lines = utils.remove_empty_tokens(token_lines)
         ngram_starts = utils.collect_ngram_starts(token_lines, self._settings.length)
-        xxx = [x for x in ngram_starts] # type: ignore
+        if self._settings.include is not None:
+            ngram_starts = utils.limit_inclusions(ngram_starts, self._include)
+        ngram_chunks = utils.chunk_ngrams(ngram_starts, self._settings.length, self._settings.max_ram)
+        xxx = [x for x in ngram_chunks] # type: ignore
         pass
 
 

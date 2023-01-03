@@ -1,7 +1,9 @@
 from .fs_helper import list_folder_documents as list_folder_documents
 from .fs_helper import read_lines_in_files as read_lines_in_files
+from .pipeline_helper import chunk_ngrams as chunk_ngrams
 from .pipeline_helper import clean_punct as clean_punct
 from .pipeline_helper import collect_ngram_starts as collect_ngram_starts
+from .pipeline_helper import limit_inclusions as limit_inclusions
 from .pipeline_helper import remove_empty_tokens as remove_empty_tokens
 from .pipeline_helper import remove_exclusions as remove_exclusions
 from .pipeline_helper import tokenize_lines as tokenize_lines
