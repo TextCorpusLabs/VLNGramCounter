@@ -38,9 +38,10 @@ class NGramCounter:
             token_lines = utils.clean_punct(token_lines)
         if self._settings.exclude is not None:
             token_lines = utils.remove_exclusions(token_lines, self._exclude)
-        token_lines = ([tok for tok in line if len(tok) > 0] for line in lines)
+        token_lines = utils.remove_empty_tokens(token_lines)
+        ngram_starts = utils.collect_ngram_starts(token_lines, self._settings.size)
         
-        xxx = [x for x in token_lines] # type: ignore
+        xxx = [x for x in ngram_starts] # type: ignore
         pass
 
 
