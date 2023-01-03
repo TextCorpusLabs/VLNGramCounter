@@ -1,3 +1,4 @@
+import pathlib
 import shutil
 from . import utils
 from .dtypes import settings
@@ -44,7 +45,4 @@ class NGramCounter:
             ngram_starts = utils.limit_inclusions(ngram_starts, self._include)
         ngram_chunks = utils.chunk_ngrams(ngram_starts, self._settings.length, self._settings.max_ram)
         chunk_paths = list(utils.write_ngram_chunks(ngram_chunks, self._settings.cache_dir))
-        #xxx = [x for x in ngram_chunks] # type: ignore
-        pass
-
-
+        chunk_path = utils.merge_sort_csv(chunk_paths, self._settings.cache_dir)
