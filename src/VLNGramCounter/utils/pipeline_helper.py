@@ -2,6 +2,11 @@ import string
 import typing as t
 from ..dtypes import trie
 
+def apply_cutoff(ngrams: t.Iterator[t.Tuple[str, int]], cutoff: int) -> t.Iterator[t.Tuple[str, int]]:
+    for ngram in ngrams:
+        if ngram[1] >= cutoff:
+            yield ngram
+
 def aggregate_ngrams(ngrams: t.Iterator[t.List[str]]) -> t.Iterator[t.Tuple[str, int]]:
     prev_gram: str | None = None
     prev_cnt: int = 0
