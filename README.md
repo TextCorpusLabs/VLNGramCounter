@@ -41,9 +41,9 @@ The following are required parameters:
 
 The following are optional parameters:
 
-* `size` is the length of the n-gram.
+* `length` is the length of the n-gram.
   The default is 1.
-* `control` is roughly the amount of ram (in Mb) used by the control structure.
+* `max_ram` is the rough cap to the amount of ram (in Mb) used by the control structure.
   Higher values use more ram, but compute the overall value faster.
   The default is 1024.
 * `include` count only values in this CSV list.

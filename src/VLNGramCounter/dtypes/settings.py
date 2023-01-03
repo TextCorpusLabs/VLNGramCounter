@@ -2,7 +2,7 @@ import pathlib
 
 class settings:
 
-    def __init__(self, source: pathlib.Path, dest: pathlib.Path, size: int, control: int, include: pathlib.Path, exclude: pathlib.Path, cutoff:int, top: int, keep_case: bool, keep_punct: bool):
+    def __init__(self, source: pathlib.Path, dest: pathlib.Path, length: int, max_ram: int, include: pathlib.Path, exclude: pathlib.Path, cutoff:int, top: int, keep_case: bool, keep_punct: bool):
         """
         Settings for the ngram counter
 
@@ -12,9 +12,9 @@ class settings:
             The folder containing the TXT files
         dest : pathlib.Path
             The CSV file used to store the ngram results
-        size :  int
+        length :  int
             The length of the n-gram
-        control: int
+        max_ram: int
             The rough amount of ram (in Mb) used by the control structure
         include: pathlib.Path
             Count only values in this CSV list
@@ -31,8 +31,8 @@ class settings:
         """
         self._source = source
         self._dest = dest
-        self._size = size
-        self._control = control
+        self._length = length
+        self._max_ram = max_ram
         self._include = include
         self._exclude = exclude
         self._cutoff = cutoff
@@ -50,11 +50,11 @@ class settings:
     def cache_dir(self) -> pathlib.Path:
         return self._dest.parent.joinpath(f'tmp_{self._dest.name}')        
     @property
-    def size(self) -> int:
-        return self._size
+    def length(self) -> int:
+        return self._length
     @property
-    def control(self) -> int:
-        return self._control
+    def max_ram(self) -> int:
+        return self._max_ram
     @property
     def include(self) -> pathlib.Path:
         return self._include
@@ -94,8 +94,8 @@ class settings:
                 raise ValueError(f'{val} must be > 0')
         _folder(self._source)
         _folder(self._dest.parent)
-        _nonzero_int(self._size)
-        _nonzero_int(self._control)
+        _nonzero_int(self._length)
+        _nonzero_int(self._max_ram)
         _file(self._include)
         _file(self._exclude)
         _nonzero_int(self._cutoff)

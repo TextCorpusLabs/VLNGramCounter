@@ -23,7 +23,7 @@ class NGramCounter:
             shutil.rmtree(self._settings.cache_dir)
         self._settings.cache_dir.mkdir(parents = True, exist_ok = True)
         if self._settings.include is not None:
-            self._include = utils.load_trie(self._settings.include, self._settings.size)
+            self._include = utils.load_trie(self._settings.include, self._settings.length)
         if self._settings.exclude is not None:
             self._exclude = utils.load_trie(self._settings.exclude, 1)
 
@@ -39,8 +39,7 @@ class NGramCounter:
         if self._settings.exclude is not None:
             token_lines = utils.remove_exclusions(token_lines, self._exclude)
         token_lines = utils.remove_empty_tokens(token_lines)
-        ngram_starts = utils.collect_ngram_starts(token_lines, self._settings.size)
-        
+        ngram_starts = utils.collect_ngram_starts(token_lines, self._settings.length)
         xxx = [x for x in ngram_starts] # type: ignore
         pass
 
