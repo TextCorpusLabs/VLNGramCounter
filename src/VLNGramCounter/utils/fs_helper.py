@@ -57,7 +57,7 @@ def write_ngram_chunks(chunks: t.Iterator[trie], cache_dir: pathlib.Path) -> t.I
         with open(file_name, 'w', encoding = 'utf-8', newline = '') as fp:
             writer = csv.writer(fp, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
             for ngram in chunk.enumerate():
-                writer.writerow([curr.gram, curr.count])
+                writer.writerow([' '.join(ngram.item), ngram.freq])
         return file_name
     for chunk in chunks:
         yield _write_ngram_chunk(chunk, cache_dir)
