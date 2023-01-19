@@ -28,9 +28,9 @@ class NGramCounter:
             self._exclude = utils.load_trie(self._settings.exclude, 1)
 
     def count(self) -> None:
-        source_files = (path for path in utils.list_folder_documents(self._settings.source))
-        source_files = utils.progress_overlay(source_files, 'Reading file #')
+        source_files = (path for path in utils.list_folder_documents(self._settings.source))        
         lines = utils.read_lines_in_files(source_files)
+        lines = utils.progress_overlay(lines, 'Reading line #')
         token_lines = utils.tokenize_lines(lines)
         if not self._settings.keep_case:
             token_lines = utils.transform_case(token_lines)
