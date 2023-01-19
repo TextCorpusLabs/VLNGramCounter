@@ -20,9 +20,8 @@ def list_folder_documents(folder_in: pathlib.Path) -> t.Iterator[pathlib.Path]:
             not file_path.stem.startswith('_')
         return result
     for file_name in folder_in.iterdir():
-        if file_name.is_file():
-            if _is_txt_document(file_name):
-                yield file_name
+        if _is_txt_document(file_name):
+            yield file_name
 
 def read_csv_file(file_path: pathlib.Path) -> t.Iterator[t.List[str]]:
     """
