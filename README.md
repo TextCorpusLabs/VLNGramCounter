@@ -76,3 +76,12 @@ In order to debug (F5) or run the tests (Ctrl + ; Crtl + A), make sure to instal
 pip uninstall VLNGramCounter -y
 python -m pip install -e c:/repos/TextCorpusLabs/VLNGramCounter
 ```
+
+When debugging in VSCode for the first time, consider adding the below config to the _launch.json_ file.
+
+```{json}
+"args" : [
+    "-source", "d:/data/corpus",
+    "-dest", "d:/data/corpus.ngrams.csv",
+    "-length", "1"]
+```
