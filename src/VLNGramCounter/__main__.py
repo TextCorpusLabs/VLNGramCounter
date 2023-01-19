@@ -3,6 +3,7 @@ import sys
 from argparse import ArgumentParser, Namespace
 from .dtypes import settings
 from .NGramCounter import NGramCounter
+from . import __version__
 
 def main() -> None:
     parser = ArgumentParser(prog = 'VLNGramCounter', description = "NGram counter for large corpuses")
@@ -24,7 +25,7 @@ def main() -> None:
     counter.count()
 
 def _print_args(args: Namespace) -> None:
-    print(f'---------')
+    print(f'--- {__version__} ---')
     for key in args.__dict__.keys():
         if key not in ['run']:
             print(f'{key}: {args.__dict__[key]}')
