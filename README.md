@@ -15,14 +15,14 @@ You can install the package using the following steps:
 `pip` install using an _admin_ prompt.
 
 ```{ps1}
-pip uninstall VLNGramCounter
+pip uninstall VLNGramCounter -y
 python -OO -m pip install -v git+https://github.com/TextCorpusLabs/VLNGramCounter.git
 ```
 
 or if you have the code local
 
 ```{ps1}
-pip uninstall VLNGramCounter
+pip uninstall VLNGramCounter -y
 python -OO -m pip install -v c:/repos/TextCorpusLabs/VLNGramCounter
 ```
 
@@ -73,6 +73,6 @@ The code in this repo is setup as a module.
 In order to debug (F5) or run the tests (Ctrl + ; Crtl + A), make sure to install the module as editable (see below).
 
 ```{ps1}
-pip uninstall VLNGramCounter
+pip uninstall VLNGramCounter -y
 python -m pip install -e c:/repos/TextCorpusLabs/VLNGramCounter
 ```
