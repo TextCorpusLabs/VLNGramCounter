@@ -50,6 +50,7 @@ The following are optional parameters:
   The default is count everything.
 * `exclude` ignore values in this CSV list.
   The default is exclude nothing.
+  **Note**: due to the order of operations, it only makes seance to `exclude` single tokens.
 * `cutoff` is the minimum value count to keep.
   The default is 2.
 * `top` is the number of n-grams to save.
