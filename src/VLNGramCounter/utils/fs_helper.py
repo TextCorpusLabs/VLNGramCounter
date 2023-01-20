@@ -36,16 +36,13 @@ def read_lines_in_files(source_files: t.Iterator[pathlib.Path]) -> t.Iterator[st
 
     Parameters
     ----------
-    file_path : pathlib.Path
+    source_files : pathlib.Path
         The file to read
-    """
-    def _read_lines_in_file(file_path: pathlib.Path) -> t.Iterator[str]:
+    """       
+    for file_path in source_files:
         with open(file_path, 'r', encoding = 'utf-8') as fp:
             for line in fp:
                 yield line
-    for file in source_files:
-        for line in _read_lines_in_file(file):
-            yield line
 
 def write_ngram_chunks(chunks: t.Iterator[t.Dict[str, int]], cache_dir: pathlib.Path) -> t.Iterator[pathlib.Path]:
     """
