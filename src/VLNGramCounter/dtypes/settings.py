@@ -2,7 +2,7 @@ import pathlib
 
 class settings:
 
-    def __init__(self, source: pathlib.Path, dest: pathlib.Path, length: int, max_ram: int, include: pathlib.Path, exclude: pathlib.Path, cutoff:int, top: int, keep_case: bool, keep_punct: bool):
+    def __init__(self, source: pathlib.Path, dest: pathlib.Path, length: int, chunk_size: int, include: pathlib.Path, exclude: pathlib.Path, cutoff:int, top: int, keep_case: bool, keep_punct: bool):
         """
         Settings for the ngram counter
 
@@ -14,8 +14,8 @@ class settings:
             The CSV file used to store the ngram results
         length :  int
             The length of the n-gram
-        max_ram: int
-            The rough amount of ram (in Mb) used by the control structure
+        chunk_size: int
+            The amount of items in used by the control structure before chunking
         include: pathlib.Path
             Count only values in this CSV list
         exclude: pathlib.Path
@@ -32,7 +32,7 @@ class settings:
         self._source = source
         self._dest = dest
         self._length = length
-        self._max_ram = max_ram
+        self._chunk_size = chunk_size
         self._include = include
         self._exclude = exclude
         self._cutoff = cutoff
@@ -53,8 +53,8 @@ class settings:
     def length(self) -> int:
         return self._length
     @property
-    def max_ram(self) -> int:
-        return self._max_ram
+    def chunk_size(self) -> int:
+        return self._chunk_size
     @property
     def include(self) -> pathlib.Path:
         return self._include
@@ -95,7 +95,7 @@ class settings:
         _folder(self._source)
         _folder(self._dest.parent)
         _nonzero_int(self._length)
-        _nonzero_int(self._max_ram)
+        _nonzero_int(self._chunk_size)
         _file(self._include)
         _file(self._exclude)
         _nonzero_int(self._cutoff)

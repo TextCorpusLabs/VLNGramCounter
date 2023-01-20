@@ -23,14 +23,14 @@ def aggregate_ngrams(ngrams: t.Iterator[t.List[str]]) -> t.Iterator[t.Tuple[str,
     if prev_gram is not None:
         yield (prev_gram, prev_cnt)
 
-def chunk_ngrams(ngrams: t.Iterator[str], max_ram: int) -> t.Iterator[t.Dict[str, int]]:
+def chunk_ngrams(ngrams: t.Iterator[str], chunk_size: int) -> t.Iterator[t.Dict[str, int]]:
     chunk: t.Dict[str, int] = {}
     for ngram in ngrams:
         if ngram in chunk:
             chunk[ngram] += 1
         else:
             chunk[ngram] = 1
-        if len(chunk) >= max_ram:
+        if len(chunk) >= chunk_size:
             yield chunk
             chunk = {}
     if len(chunk) >= 0:

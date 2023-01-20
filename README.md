@@ -43,9 +43,9 @@ The following are optional parameters:
 
 * `length` is the length of the n-gram.
   The default is 1.
-* `max_ram` is the rough cap to the amount of ram (in Mb) used by the control structure.
+* `chunk_size` is the amount of items in used by the control structure before chunking.
   Higher values use more ram, but compute the overall value faster.
-  The default is 1024.
+  The default is 1M.
 * `include` count only values in this CSV list.
   The default is count everything.
 * `exclude` ignore values in this CSV list.

@@ -42,7 +42,7 @@ class NGramCounter:
         ngrams = utils.collect_ngrams(token_lines, self._settings.length)
         if self._settings.include is not None:
             ngrams = utils.limit_inclusions(ngrams, self._include)
-        ngram_chunks = utils.chunk_ngrams(ngrams, self._settings.max_ram)
+        ngram_chunks = utils.chunk_ngrams(ngrams, self._settings.chunk_size)
         chunk_paths = list(utils.write_ngram_chunks(ngram_chunks, self._settings.cache_dir))
         chunk_path = utils.merge_sort_csv(chunk_paths, self._settings.cache_dir)
         ngrams = utils.read_csv_file(chunk_path)
