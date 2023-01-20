@@ -16,20 +16,6 @@ def list_folder_documents(folder_in: pathlib.Path) -> t.Iterator[pathlib.Path]:
         if file_name.is_file() and file_name.suffix.lower() == '.txt' and not file_name.stem.startswith('_'):
             yield file_name
 
-def read_csv_file(file_path: pathlib.Path) -> t.Iterator[t.List[str]]:
-    """
-    Reads all the rows in a CSV file as an `Iterator`
-
-    Parameters
-    ----------
-    file_path : pathlib.Path
-        The file to read
-    """
-    with open(file_path, 'r', encoding = 'utf-8') as fp:
-        reader = csv.reader(fp, delimiter = ',', quotechar = '"')
-        for item in reader:
-            yield item
-
 def read_lines_in_files(source_files: t.Iterator[pathlib.Path]) -> t.Iterator[str]:
     """
     Reads all the lines in all the files as an `Iterator`
@@ -43,6 +29,21 @@ def read_lines_in_files(source_files: t.Iterator[pathlib.Path]) -> t.Iterator[st
         with open(file_path, 'r', encoding = 'utf-8') as fp:
             for line in fp:
                 yield line
+
+def read_ngram_chunk(file_path: pathlib.Path) -> t.Iterator[t.List[str]]:
+    """
+    Reads all the rows in the ngram chunk as an `Iterator`
+
+    Parameters
+    ----------
+    file_path : pathlib.Path
+        The file to read
+    """
+    with open(file_path, 'r', encoding = 'utf-8') as fp:
+        for line in fp:
+            row = line.split(',', maxsplit = 2)
+            row[1] = row[1].strip()
+            yield row
 
 def write_ngram_chunks(chunks: t.Iterator[t.Dict[str, int]], cache_dir: pathlib.Path) -> t.Iterator[pathlib.Path]:
     """
@@ -58,9 +59,8 @@ def write_ngram_chunks(chunks: t.Iterator[t.Dict[str, int]], cache_dir: pathlib.
     for chunk in chunks:
         file_name = cache_dir.joinpath(f'tmp_{uuid4()}.csv')
         with open(file_name, 'w', encoding = 'utf-8', newline = '') as fp:
-            writer = csv.writer(fp, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
             for key in sorted(chunk.keys()):
-                writer.writerow([key, chunk[key]])
+                fp.write(f'{chunk[key]},{key}\n')
         yield file_name
 
 def write_ngrams(ngrams: t.Iterator[t.Tuple[str, int]], csv_out: pathlib.Path, length: int) -> None:

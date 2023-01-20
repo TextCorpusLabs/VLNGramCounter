@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.x-blue.svg)
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
-![Last Updated](https://img.shields.io/badge/Last%20Updated-2022.12.27-success.svg)
+![Last Updated](https://img.shields.io/badge/Last%20Updated-2023.01.20-success.svg)
 
 NGram counter for large corpuses
 

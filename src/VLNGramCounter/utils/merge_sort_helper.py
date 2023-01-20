@@ -1,10 +1,9 @@
-import csv
 import multiprocessing as mp
 import pathlib
 import progressbar as pb # type: ignore
 import typing as t
 from uuid import uuid4
-from .fs_helper import read_csv_file
+from .fs_helper import read_ngram_chunk
 
 class _merge_arg:
     def __init__(self, file_1: pathlib.Path, file_2: pathlib.Path, cache_dir: pathlib.Path):
@@ -12,8 +11,8 @@ class _merge_arg:
         self.file_2 = file_2
         self.cache_dir = cache_dir
 
-def merge_sort_csv(file_paths: t.List[pathlib.Path], cache_dir: pathlib.Path) -> pathlib.Path:
-    widgets = ['Merging Files ', pb.Counter(), ' ', pb.Timer(), ' ', pb.BouncingBar(marker = '.', left = '[', right = ']')]
+def merge_sort_chunks(file_paths: t.List[pathlib.Path], cache_dir: pathlib.Path) -> pathlib.Path:
+    widgets = ['Merging ', pb.Counter(), ' Files ', pb.Timer(), ' ', pb.BouncingBar(marker = '.', left = '[', right = ']')]
     with pb.ProgressBar(widgets = widgets, initial_value = len(file_paths)) as bar:
         with mp.Pool() as pool:
             bar.update(len(file_paths), force = True) # type: ignore
@@ -40,14 +39,13 @@ def _merge_files(args: _merge_arg) -> pathlib.Path:
     if args.file_2 is None:
         return args.file_1
     file_name = args.cache_dir.joinpath(f'tmp_{uuid4()}.csv')
-    readers = [read_csv_file(args.file_1), read_csv_file(args.file_2)]
+    readers = [read_ngram_chunk(args.file_1), read_ngram_chunk(args.file_2)]
     current = [next(readers[0]), next(readers[1])]
     cnt = len(current)
     with open(file_name, 'w', encoding = 'utf-8', newline = '') as fp:
-        writer = csv.writer(fp, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
         while cnt > 0:
             i = _min_index(current)
-            writer.writerow(current[i])
+            fp.write(f'{current[i][0]},{current[i][1]}\n')
             current[i] = next(readers[i], None) # type: ignore
             if current[i] is None:
                 cnt = cnt - 1
@@ -61,12 +59,12 @@ def _min_index(lines: t.List[t.List[str]]) -> int:
     min_ng: str = ''
     for i in range(len_ngs):
         if lines[i] is not None:
-            min_ng = lines[i][0]
+            min_ng = lines[i][1]
             min_i = i
             break
     for i in range(min_i + 1, len_ngs):
         if lines[i] is not None:
-            curr = lines[i][0]
+            curr = lines[i][1]
             if curr < min_ng:
                 min_ng = curr
                 min_i = i

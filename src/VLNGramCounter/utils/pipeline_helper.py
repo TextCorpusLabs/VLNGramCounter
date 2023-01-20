@@ -96,6 +96,13 @@ def remove_exclusions(lines: t.Iterator[t.List[str]], excludes: t.Set[str]) -> t
         res = [item for item in line if item not in excludes]
         yield res
 
+def reverse_ngrams(lists: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str]]:
+    for list in lists:
+        a = list[0]
+        list[0] = list[1]
+        list[1] = a
+        yield list
+
 def tokenize_lines(lines: t.Iterator[str]) -> t.Iterator[t.List[str]]:
     for line in lines:
         res = line.strip().split(' ')
