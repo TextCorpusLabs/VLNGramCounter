@@ -1,6 +1,5 @@
 import string
 import typing as t
-from ..dtypes import trie
 from sys import maxsize as MAX_SIZE
 
 def apply_cutoff(ngrams: t.Iterator[t.Tuple[str, int]], cutoff: int) -> t.Iterator[t.Tuple[str, int]]:
@@ -24,14 +23,17 @@ def aggregate_ngrams(ngrams: t.Iterator[t.List[str]]) -> t.Iterator[t.Tuple[str,
     if prev_gram is not None:
         yield (prev_gram, prev_cnt)
 
-def chunk_ngrams(ngrams: t.Iterator[t.Tuple[t.List[str], int]], length: int, max_ram: int) -> t.Iterator[trie]:
-    chunk = trie(length)
+def chunk_ngrams(ngrams: t.Iterator[str], max_ram: int) -> t.Iterator[t.Dict[str, int]]:
+    chunk: t.Dict[str, int] = {}
     for ngram in ngrams:
-        chunk.increment(ngram[0], ngram[1])
-        if chunk.size >= max_ram:
+        if ngram in chunk:
+            chunk[ngram] += 1
+        else:
+            chunk[ngram] = 1
+        if len(chunk) >= max_ram:
             yield chunk
-            chunk = trie(length)
-    if chunk.size >= 0:
+            chunk = {}
+    if len(chunk) >= 0:
         yield chunk
 
 def clean_punct(lines: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str]]:
@@ -39,11 +41,11 @@ def clean_punct(lines: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str]]:
         res = [tok.strip(string.punctuation) for tok in line]
         yield res
 
-def collect_ngram_starts(lines: t.Iterator[t.List[str]], size: int) -> t.Iterator[t.Tuple[t.List[str], int]]:
+def collect_ngrams(lines: t.Iterator[t.List[str]], size: int) -> t.Iterator[str]:
     for line in lines:
         if len(line) >= size:
             for i in range(0, len(line) - size + 1):
-                res = (line, i)
+                res = ' '.join(line[i:(i+size)])
                 yield res
 
 def keep_top_ngrams(ngrams: t.Iterator[t.Tuple[str, int]], top: int) -> t.Iterator[t.Tuple[str, int]]:
@@ -75,9 +77,9 @@ def keep_top_ngrams(ngrams: t.Iterator[t.Tuple[str, int]], top: int) -> t.Iterat
         for ngram in best_ngrams:
             yield ngram
 
-def limit_inclusions(ngrams: t.Iterator[t.Tuple[t.List[str], int]], includes: trie) -> t.Iterator[t.Tuple[t.List[str], int]]:
+def limit_inclusions(ngrams: t.Iterator[str], includes: t.Set[str]) -> t.Iterator[str]:
     for ngram in ngrams:
-        if includes.contains(ngram[0], ngram[1]):
+        if ngram in includes:
             yield ngram
 
 def remove_empty_tokens(lines: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str]]:
@@ -86,9 +88,9 @@ def remove_empty_tokens(lines: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str
         if len(res) > 0:
             yield res
 
-def remove_exclusions(lines: t.Iterator[t.List[str]], excludes: trie) -> t.Iterator[t.List[str]]:
+def remove_exclusions(lines: t.Iterator[t.List[str]], excludes: t.Set[str]) -> t.Iterator[t.List[str]]:
     for line in lines:
-        res = [line[i] for i in range(0, len(line)) if not excludes.contains(line, i)]
+        res = [item for item in line if item not in excludes]
         yield res
 
 def tokenize_lines(lines: t.Iterator[str]) -> t.Iterator[t.List[str]]:

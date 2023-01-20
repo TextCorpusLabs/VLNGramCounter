@@ -1,7 +1,6 @@
 import csv
 import pathlib
 import typing as t
-from ..dtypes import trie
 from uuid import uuid4
 
 def list_folder_documents(folder_in: pathlib.Path) -> t.Iterator[pathlib.Path]:
@@ -54,7 +53,7 @@ def read_lines_in_files(source_files: t.Iterator[pathlib.Path]) -> t.Iterator[st
         for line in _read_lines_in_file(file):
             yield line
 
-def write_ngram_chunks(chunks: t.Iterator[trie], cache_dir: pathlib.Path) -> t.Iterator[pathlib.Path]:
+def write_ngram_chunks(chunks: t.Iterator[t.Dict[str, int]], cache_dir: pathlib.Path) -> t.Iterator[pathlib.Path]:
     """
     Writes all the ngrams in all the chunks as an `Iterator`
 
@@ -65,12 +64,12 @@ def write_ngram_chunks(chunks: t.Iterator[trie], cache_dir: pathlib.Path) -> t.I
     cache_dir: pathlib.Path
         The path to save chunks
     """
-    def _write_ngram_chunk(chunk: trie, cache_dir: pathlib.Path) ->  pathlib.Path:
+    def _write_ngram_chunk(chunk: t.Dict[str, int], cache_dir: pathlib.Path) ->  pathlib.Path:
         file_name = cache_dir.joinpath(f'tmp_{uuid4()}.csv')
         with open(file_name, 'w', encoding = 'utf-8', newline = '') as fp:
             writer = csv.writer(fp, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
-            for ngram in chunk.enumerate():
-                writer.writerow([' '.join(ngram.item), ngram.freq])
+            for key in sorted(chunk.keys()):
+                writer.writerow([key, chunk[key]])
         return file_name
     for chunk in chunks:
         yield _write_ngram_chunk(chunk, cache_dir)

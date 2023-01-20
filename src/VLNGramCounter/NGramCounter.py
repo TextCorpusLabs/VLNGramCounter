@@ -23,12 +23,12 @@ class NGramCounter:
             shutil.rmtree(self._settings.cache_dir)
         self._settings.cache_dir.mkdir(parents = True, exist_ok = True)
         if self._settings.include is not None:
-            self._include = utils.load_trie(self._settings.include, self._settings.length)
+            self._include = utils.load_map(self._settings.include, self._settings.length)
         if self._settings.exclude is not None:
-            self._exclude = utils.load_trie(self._settings.exclude, 1)
+            self._exclude = utils.load_map(self._settings.exclude, 1)
 
     def count(self) -> None:
-        source_files = (path for path in utils.list_folder_documents(self._settings.source))        
+        source_files = utils.list_folder_documents(self._settings.source)
         lines = utils.read_lines_in_files(source_files)
         lines = utils.progress_overlay(lines, 'Reading line #')
         token_lines = utils.tokenize_lines(lines)
@@ -39,10 +39,10 @@ class NGramCounter:
         if self._settings.exclude is not None:
             token_lines = utils.remove_exclusions(token_lines, self._exclude)
         token_lines = utils.remove_empty_tokens(token_lines)
-        ngram_starts = utils.collect_ngram_starts(token_lines, self._settings.length)
+        ngrams = utils.collect_ngrams(token_lines, self._settings.length)
         if self._settings.include is not None:
-            ngram_starts = utils.limit_inclusions(ngram_starts, self._include)
-        ngram_chunks = utils.chunk_ngrams(ngram_starts, self._settings.length, self._settings.max_ram)
+            ngrams = utils.limit_inclusions(ngrams, self._include)
+        ngram_chunks = utils.chunk_ngrams(ngrams, self._settings.max_ram)
         chunk_paths = list(utils.write_ngram_chunks(ngram_chunks, self._settings.cache_dir))
         chunk_path = utils.merge_sort_csv(chunk_paths, self._settings.cache_dir)
         ngrams = utils.read_csv_file(chunk_path)
