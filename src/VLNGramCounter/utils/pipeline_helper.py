@@ -25,15 +25,18 @@ def aggregate_ngrams(ngrams: t.Iterator[t.List[str]]) -> t.Iterator[t.Tuple[str,
 
 def chunk_ngrams(ngrams: t.Iterator[str], chunk_size: int) -> t.Iterator[t.Dict[str, int]]:
     chunk: t.Dict[str, int] = {}
+    chunk_i: int = 0
     for ngram in ngrams:
         if ngram in chunk:
             chunk[ngram] += 1
         else:
             chunk[ngram] = 1
-        if len(chunk) >= chunk_size:
+            chunk_i += 1
+        if chunk_i >= chunk_size:
             yield chunk
             chunk = {}
-    if len(chunk) >= 0:
+            chunk_i = 0
+    if chunk_i >= 0:
         yield chunk
 
 def clean_punct(lines: t.Iterator[t.List[str]]) -> t.Iterator[t.List[str]]:
